@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from app.api import books, issues, readers
 from app.db.base import init_db
-# from app.api.issues import router as issue_router
-# from app.api.readers import router as reader_router
 
 app = FastAPI(
     title="Library API",

@@ -8,15 +8,15 @@ class IssueService:
     def create_issue(db: Session, issue_data: IssueCreate):
         book = db.query(Book).filter(Book.id == issue_data.book_id).first() 
         if not book:
-            raise ValueError("Книга с ID {issue_data.book_id} нe найдена")
+            raise ValueError(f"Книга с ID {issue_data.book_id} нe найдена")
         
         existing_issue = db.query(Issue).filter(Issue.book_id == issue_data.book_id).first() 
         if existing_issue:
-            raise ValueError("Книга с ID {issue_data.book_id} уже создана")
+            raise ValueError(f"Книга с ID {issue_data.book_id} уже создана")
         
-        reader = db.query(Reader).filter(Reader.id - issue_data.reader_id).first() 
+        reader = db.query(Reader).filter(Reader.id == issue_data.reader_id).first() 
         if not reader:
-            raise ValueError("Читатель с ID {issue_data.reader_id} нe найден")
+            raise ValueError(f"Читатель с ID {issue_data.reader_id} нe найден")
         
         issue = Issue(**issue_data.model_dump())
         db.add(issue)
@@ -28,7 +28,7 @@ class IssueService:
     def get_issue(db: Session, issue_id: int):
         issue = db.query(Issue).filter(Issue.id == issue_id).first()
         if not issue:
-            raise ValueError("Выдача с ID {issue_id} нe найдена") 
+            raise ValueError(f"Выдача с ID {issue_id} нe найдена") 
         return issue
     
     @staticmethod
@@ -39,8 +39,8 @@ class IssueService:
     def close_issue(db: Session, issue_id: int):
         issue = db.query(Issue).filter(Issue.id == issue_id).first()
         if not issue:
-            raise ValueError("Выдача с ID {issue_id} нe найдена")
+            raise ValueError(f"Выдача с ID {issue_id} нe найдена")
         
         db.delete(issue)
         db.commit()
-        return {"message": "Выдача с ID {issue_id} закрыта"}
+        return {f"message": "Выдача с ID {issue_id} закрыта"}

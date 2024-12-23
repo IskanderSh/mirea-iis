@@ -16,18 +16,18 @@ class ReaderService:
     def get_reader(db: Session, reader_id: int):
         reader = db.query(Reader).filter(Reader.id == reader_id).first() 
         if not reader:
-            raise ValueError(f"Читатель ID {reader_id} не найден") 
+            raise ValueError(f"Читатель с ID {reader_id} не найден") 
         return reader
     
     @staticmethod
     def delete_reader(db: Session, reader_id: int):
         reader = db.query(Reader).filter(Reader.id == reader_id).first() 
         if not reader:
-            raise ValueError(f"Читатель ID {reader_id} не найдена")
+            raise ValueError(f"Читатель с ID {reader_id} не найден")
         
         db.delete(reader)
         db.commit()
-        return {"message": "читательID {reader_id} зakpыta"}
+        return {"message": "читатель с ID {reader_id} удален"}
     
     @staticmethod
     def get_all_readers(db: Session):

@@ -11,6 +11,7 @@ def create_issue(issue: IssueCreate, db: Session = Depends(get_db)):
     try:
         return IssueService.create_issue(db, issue)
     except ValueError as e:
+        print(str(e))
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/{id}", response_model=IssueResponse)
